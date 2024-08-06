@@ -1,7 +1,7 @@
-import db from '../../../database/postgresql/index.js'
+import db from '../../database/postgresql/index.js'
 import { isVillager } from './character.js'
 
-import { UniqueConstraintError } from '../../../database/postgresql/errors.js'
+import { UniqueConstraintError } from '../../database/postgresql/errors.js'
 import { CharacterError, VillageError } from '../errors.js'
 
 import { createChannel, deleteChannel } from './chat/channels.js'

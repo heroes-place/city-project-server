@@ -93,3 +93,9 @@ CREATE TABLE channels_whisper  (
     FOREIGN KEY (character_2) REFERENCES characters (id) ON DELETE CASCADE
 );
 
+
+/* Add some default data */
+INSERT INTO channels_categories (name, is_persistent, min_members, max_members) VALUES ('world', TRUE, NULL, NULL);
+INSERT INTO channels_categories (name, is_persistent, min_members, max_members) VALUES ('whisper', TRUE, 2, 2);
+INSERT INTO channels_categories (name, is_persistent, min_members, max_members) VALUES ('party', FALSE, 2, 10);
+INSERT INTO channels_categories (name, is_persistent, min_members, max_members) VALUES ('village', TRUE, 1, NULL);

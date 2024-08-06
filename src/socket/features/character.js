@@ -1,8 +1,18 @@
-import db from '../../../database/postgresql/index.js'
-import { getClient } from '../../../database/redis/index.js'
+import db from '../../database/postgresql/index.js'
+import { getClient } from '../../database/redis/index.js'
 import { getOthersSessions } from '../index.js'
 
-import { getFrame, getBorder, foundOtherPlayers, getCharacterListCoords } from './map.js'
+import { getFrame, getBorder, foundOtherPlayers, getCharacterListCoords } from './map/map.js'
+
+import { CharacterError } from '../errors.js'
+
+const getCharacterIdByName = async (characterName) => {
+  const r1 = await db.query('SELECT id FROM characters WHERE name = $1', [characterName.trim().toLowerCase()])
+
+  if (r1.rows.length === 0) throw new CharacterError('CHARACTER_NOT_FOUND')
+
+  return r1.rows[0].id
+}
 
 const onIsVillager = async ({ socket }) => {
   const result = await isVillager(socket.characterId)
@@ -80,5 +90,6 @@ export {
   onIsVillager,
   isVillager,
   onCharacterSpawn,
-  onCharacterMove
+  onCharacterMove,
+  getCharacterIdByName
 }

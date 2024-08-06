@@ -1,4 +1,4 @@
-import db from '../../../database/postgresql/index.js'
+import db from '../../database/postgresql/index.js'
 
 const onPullMailbox = async ({ socket }) => {
   pullMailBox(socket, socket.characterId)

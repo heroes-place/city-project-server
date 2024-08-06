@@ -1,35 +1,36 @@
-import db from '../../../../database/postgresql/index.js'
+import db from '../../../database/postgresql/index.js'
 import { pullMailBox } from '../mailbox.js'
-import { CharacterError, InviteError } from '../../errors.js'
 import { getSessions } from '../../index.js'
+import { getCharacterIdByName } from '../character.js'
+
+import { InviteError } from '../../errors.js'
 
 const onAddCharacter = async ({ io, socket, content }) => {
   try {
-    await addCharacter(io, socket, socket.characterId, content)
+    const receiverId = await getCharacterIdByName(content.characterName)
+
+    const senderId = socket.characterId
+
+    await addCharacter(io, socket, senderId, receiverId)
   } catch (error) {
     console.log(error)
   }
 }
 
-const addCharacter = async (io, socket, sender, receiver) => {
-  console.log(`[socket] Invitation de ${sender} à ${receiver}`)
+const addCharacter = async (io, socket, senderId, receiverId) => {
+  if (senderId === receiverId) throw new InviteError('SELF_INVITE')
 
-  const r1 = await db.query('SELECT id FROM characters WHERE name = $1', [receiver])
-
-  if (r1.rows.length === 0) throw new CharacterError('CHARACTER_NOT_FOUND')
-
-  const receiverId = r1.rows[0].id
-
-  if (sender === receiverId) throw new InviteError('SELF_INVITE')
-
-  const r2 = await db.query('SELECT * FROM invites WHERE sender_id = $1 AND receiver_id = $2', [sender, receiverId])
+  const r2 = await db.query('SELECT * FROM invites WHERE sender_id = $1 AND receiver_id = $2', [senderId, receiverId])
 
   if (r2.rows.length !== 0) throw new InviteError('ALREADY_INVITED')
 
-  await db.query('INSERT INTO invites (sender_id, receiver_id) VALUES ($1, $2)', [sender, receiverId])
+  await db.query('INSERT INTO invites (sender_id, receiver_id) VALUES ($1, $2)', [senderId, receiverId])
 
-  await pullCharacters(socket, sender)
+  await pullCharacters(socket, senderId)
+  console.log("a", getSessions()[receiverId])
   await pullMailBox(io.sockets.sockets.get(getSessions()[receiverId]), receiverId)
+
+  console.log(`[socket] Invitation de ${senderId} à ${receiverId}`)
 }
 
 const onRemoveCharacter = ({ io, socket, content }) => {

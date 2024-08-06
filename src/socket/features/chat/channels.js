@@ -1,4 +1,4 @@
-import db from '../../../../database/postgresql/index.js'
+import db from '../../../database/postgresql/index.js'
 
 const createChannel = async (categoryId, founderId) => {
   try {

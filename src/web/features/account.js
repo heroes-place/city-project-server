@@ -1,6 +1,6 @@
-import auth from './auth.js'
-import db from './database/postgresql/index.js'
-import { UniqueConstraintError } from './database/postgresql/errors.js'
+import auth from '../../auth.js'
+import db from '../../database/postgresql/index.js'
+import { UniqueConstraintError } from '../../database/postgresql/errors.js'
 
 // Fonction pour gérer l'inscription
 async function register (accountName, characterName, emailAddress, password) {
