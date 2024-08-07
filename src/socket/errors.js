@@ -33,16 +33,8 @@ class CharacterError extends DisplayableError {
   ]
 }
 
-class InviteError extends DisplayableError {
-  static types = [
-    'SELF_INVITE',
-    'ALREADY_INVITED'
-  ]
-}
-
 export {
   DisplayableError,
   VillageError,
-  InviteError,
   CharacterError
 }

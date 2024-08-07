@@ -22,6 +22,7 @@ CREATE TABLE invites (
     sender_id INTEGER NOT NULL,
     receiver_id INTEGER NOT NULL,
     status INTEGER DEFAULT 0,
+    mode varchar(20) NOT NULL,
     creation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (sender_id) REFERENCES characters (id) ON DELETE CASCADE,
     FOREIGN KEY (receiver_id) REFERENCES characters (id) ON DELETE CASCADE
@@ -99,3 +100,6 @@ INSERT INTO channels_categories (name, is_persistent, min_members, max_members) 
 INSERT INTO channels_categories (name, is_persistent, min_members, max_members) VALUES ('whisper', TRUE, 2, 2);
 INSERT INTO channels_categories (name, is_persistent, min_members, max_members) VALUES ('party', FALSE, 2, 10);
 INSERT INTO channels_categories (name, is_persistent, min_members, max_members) VALUES ('village', TRUE, 1, NULL);
+
+/* Add a default world channel */
+INSERT INTO channels (category) VALUES (1);

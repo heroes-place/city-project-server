@@ -86,10 +86,17 @@ const moveCharacter = async (characterId, direction) => {
   }
 }
 
+const doesCharacterExist = async (characterId) => {
+  const r = await db.query('SELECT * FROM characters WHERE id = $1', [characterId])
+
+  return r.rows.length !== 0
+}
+
 export {
   onIsVillager,
   isVillager,
   onCharacterSpawn,
   onCharacterMove,
-  getCharacterIdByName
+  getCharacterIdByName,
+  doesCharacterExist
 }

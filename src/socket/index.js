@@ -83,7 +83,13 @@ class SocketManager {
       this.destroyPreviousSession(socket)
 
       for (const [event, handler] of Object.entries(events)) {
-        socket.on(event, (content) => handler({ io: this.io, socket, content }))
+        socket.on(event, (content) => {
+          try {
+            handler({ io: this.io, socket, content })
+          } catch (e) {
+            console.log(e)
+          }
+        })
       }
 
       socket.conn.on("close", (reason) => {

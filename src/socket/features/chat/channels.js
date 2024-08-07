@@ -1,12 +1,22 @@
 import db from '../../../database/postgresql/index.js'
 
-const createChannel = async (categoryId, founderId) => {
+const createChannel = async (categoryId) => {
   try {
     const res = await db.query('INSERT INTO channels (category) VALUES ($1) RETURNING id', [categoryId])
 
     console.log(`[socket] Channel ${res.rows[0].id} créé.`)
 
     return res.rows[0].id
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+const joinChannel = async (channelId, characterId) => {
+  try {
+    await db.query('INSERT INTO channels_members (channel_id, character_id) VALUES ($1, $2)', [channelId, characterId])
+
+    console.log(`[socket] Character ${characterId} joined channel ${channelId}`)
   } catch (error) {
     console.log(error)
   }
@@ -24,5 +34,6 @@ const deleteChannel = async (channelId) => {
 
 export {
   createChannel,
-  deleteChannel
+  deleteChannel,
+  joinChannel
 }

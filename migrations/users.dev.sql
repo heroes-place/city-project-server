@@ -1,1 +1,5 @@
-INSERT INTO "accounts" ("id", "name", "email_address", "password", "verification_code", "admin", "creation_date", "last_login") VALUES (1,'soleo','s@s.s','$2b$10$B/HEumSJQOy6KjCrg5h0EOhOZpfxCGrRMBLTlKtBxPOIHaOvCicse',0,false,'2024-08-06 19:04:55.288000','2024-08-06 19:04:55.288000');
+INSERT INTO "accounts" ("name", "email_address", "password", "admin") VALUES ('soleo','s@s.s','$2b$10$B/HEumSJQOy6KjCrg5h0EOhOZpfxCGrRMBLTlKtBxPOIHaOvCicse', true);
+INSERT INTO "accounts" ("name", "email_address", "password", "admin") VALUES ('zgurt','z@z.z','$2b$10$B/HEumSJQOy6KjCrg5h0EOhOZpfxCGrRMBLTlKtBxPOIHaOvCicse', true);
+
+INSERT INTO "characters" ("name", "account_id") VALUES ('soleo', 1);
+INSERT INTO "characters" ("name", "account_id") VALUES ('zgurt', 2);
