@@ -6,8 +6,15 @@ import { getFrame, getBorder, foundOtherPlayers, getCharacterListCoords } from '
 
 import { CharacterError } from '../errors.js'
 
-const getCharacterIdByName = async (characterName) => {
-  const r1 = await db.query('SELECT id FROM characters WHERE name = $1', [characterName.trim().toLowerCase()])
+const resolveCharacter = async (character) => {
+  let sql = 'SELECT id FROM characters WHERE id = $1'
+
+  if (typeof character === 'string' && character.length > 0) {
+    sql = 'SELECT id FROM characters WHERE name = $1'
+    character = character.trim().toLowerCase()
+  }
+
+  const r1 = await db.query(sql, [character])
 
   if (r1.rows.length === 0) throw new CharacterError('CHARACTER_NOT_FOUND')
 
@@ -86,17 +93,10 @@ const moveCharacter = async (characterId, direction) => {
   }
 }
 
-const doesCharacterExist = async (characterId) => {
-  const r = await db.query('SELECT * FROM characters WHERE id = $1', [characterId])
-
-  return r.rows.length !== 0
-}
-
 export {
   onIsVillager,
   isVillager,
   onCharacterSpawn,
   onCharacterMove,
-  getCharacterIdByName,
-  doesCharacterExist
+  resolveCharacter
 }

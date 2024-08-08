@@ -1,7 +1,7 @@
 import db from '../../../database/postgresql/index.js'
 import { InviteError } from './errors.js'
 
-import { doesCharacterExist } from '../character.js'
+import { resolveCharacter } from '../character.js'
 
 class Invite {
   constructor(senderId, receiverId) {
@@ -14,9 +14,7 @@ class Invite {
     try {
       if (this.senderId === this.receiverId) throw new InviteError('SELF_INVITE')
 
-      const characterExist = await doesCharacterExist(this.receiverId)
-
-      if (!characterExist) throw new InviteError('CHARACTER_NOT_FOUND')
+      await resolveCharacter(this.receiverId)
 
       const r1 = await db.query('SELECT * FROM invites WHERE sender_id = $1 AND receiver_id = $2 AND mode = $3', [this.senderId, this.receiverId, this.mode])
 
