@@ -1,16 +1,11 @@
-import { pullMailBox } from '../mailbox.js'
 import { getSessions } from '../../index.js'
 import { resolveCharacter } from '../character.js'
 
 import { Invite } from './default.js'
 
 class InviteChart extends Invite {
-  constructor(io, socket, senderId, receiverId) {
-    super(senderId, receiverId)
-    this.mode = 'chart'
-
-    this.io = io
-    this.socket = socket
+  constructor(session, senderId, receiverId) {
+    super(session, senderId, receiverId, 'chart')
   }
 
   async sendInvite() {

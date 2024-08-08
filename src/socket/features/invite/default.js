@@ -3,10 +3,13 @@ import { resolveCharacter } from '../character.js'
 import { InviteError } from './errors.js'
 
 class Invite {
-  constructor(senderId, receiverId) {
+  constructor(session, senderId, receiverId, mode) {
+    this.session = session
+
     this.senderId = senderId
     this.receiverId = receiverId
-    this.mode = 'default'
+
+    this.mode = mode
   }
 
   async sendInvite() {

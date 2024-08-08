@@ -1,6 +1,8 @@
 import db from '../../database/postgresql/index.js'
 
-const onPullMailbox = async ({ socket }) => {
+const onPullMailbox = async ({ socketSession, content })  => {
+  const { io, socket } = socketSession
+  
   pullMailBox(socket, socket.characterId)
 }
 
