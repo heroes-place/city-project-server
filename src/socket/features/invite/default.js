@@ -1,7 +1,6 @@
 import db from '../../../database/postgresql/index.js'
-import { InviteError } from './errors.js'
-
 import { resolveCharacter } from '../character.js'
+import { InviteError } from './errors.js'
 
 class Invite {
   constructor(senderId, receiverId) {

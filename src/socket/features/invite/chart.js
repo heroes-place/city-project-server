@@ -2,7 +2,7 @@ import { pullMailBox } from '../mailbox.js'
 import { getSessions } from '../../index.js'
 import { resolveCharacter } from '../character.js'
 
-import { Invite } from './invite.js'
+import { Invite } from './default.js'
 
 class InviteChart extends Invite {
   constructor(io, socket, senderId, receiverId) {
